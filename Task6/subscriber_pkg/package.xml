@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>subscriber_pkg</name>
+  <version>1.0.0</version>
+  <description>ROS subscriber package for Task6</description>
+  
+  <!-- 添加维护者信息 -->
+  <maintainer email="3250172180@qq.com">sxz</maintainer>
+  
+  <!-- 添加许可证信息 -->
+  <license>MIT</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>roscpp</build_depend>
+  <build_depend>publisher_pkg</build_depend>
+  
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>publisher_pkg</exec_depend>
+</package>

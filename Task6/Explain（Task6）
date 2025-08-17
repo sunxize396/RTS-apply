@@ -1,0 +1,55 @@
+#include <ros/ros.h>
+// 自定义头文件
+#include "task6_pkg/trebleints.h"
+
+
+int main(int argc, char **argv) {
+
+   //初始化节点
+    ros::init(argc, argv, "publisher_node");
+   //与ros通信（大管家）
+    ros::NodeHandle nh;
+    //用手机（pub）发布topic，消息类型，消息等待队列
+    ros::Publisher pub = nh.advertise<task6_pkg::trebleints>("trebleints", 10);
+    
+    //等待循环：直到至少有一个订阅者连接
+    while (pub.getNumSubscribers() == 0) {
+        ros::Duration(0.1).sleep();
+    }
+       //创建消息对象
+        task6_pkg::trebleints msg;
+        msg.a = 110;
+        msg.b = 119;
+        msg.c = 120;
+        //发布消息后等待，阻塞保证消息发送
+        pub.publish(msg);       
+        ros::Duration(0.5).sleep();
+           
+    return 0;
+}
+
+
+
+#include <ros/ros.h>
+#include "task6_pkg/trebleints.h"
+
+//定义消息回调函数：接收指向 trebleints 消息的常量指针
+void callback(const task6_pkg::trebleints::ConstPtr& msg) {
+
+   //打印
+    ROS_INFO(" %ld %ld %ld ", 
+             msg->a, msg->b, msg->c);            
+}
+
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "publisher_node");
+    ros::NodeHandle nh;
+    ros::Subscriber sub = nh.subscribe("trebleints", 10, callback);
+    //保持节点运行，收到消息调用回调函数
+    ros::spin();
+    return 0;
+}
+
+
+
+
