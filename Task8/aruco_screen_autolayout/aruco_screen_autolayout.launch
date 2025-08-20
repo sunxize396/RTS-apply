@@ -1,0 +1,35 @@
+<launch>
+  <!-- 统一默认图像话题 -->
+  <arg name="image_topic" default="/usb_cam/image_rect_color"/>
+  <arg name="rosbag_path" default="/home/sxz/catkin_ws/src/aruco_screen_autolayout/data/rosbag.bag"/>
+  <arg name="dictionary"  default="DICT_4X4_50"/>
+  <arg name="auto_layout" default="true"/>
+  <arg name="auto_rows"   default="2"/>
+  <arg name="auto_cols"   default="4"/>
+  <arg name="bag_rate_hz" default="15.0"/>
+
+  <!-- 节点（自动布局版） -->
+  <node pkg="aruco_screen_pkg" type="aruco_screen_node_autolayout.py" name="aruco_screen" output="screen">
+    <param name="image_topic" value="$(arg image_topic)"/>
+    <param name="rosbag_path" value="$(arg rosbag_path)"/>
+    <param name="dictionary"  value="$(arg dictionary)"/>
+    <param name="auto_layout" value="$(arg auto_layout)"/>
+    <param name="auto_rows"   value="$(arg auto_rows)"/>
+    <param name="auto_cols"   value="$(arg auto_cols)"/>
+    <param name="bag_rate_hz" value="$(arg bag_rate_hz)"/>
+    <param name="cell_px" value="300"/>
+    <param name="pad_px"  value="40"/>
+  </node>
+
+  <!-- 同时打开两扇 rqt 窗口 -->
+  <node pkg="rqt_image_view" type="rqt_image_view" name="viewer_rawimage" output="screen">
+    <param name="image" value="/aruco_screen/rawimage"/>
+    <param name="transport" value="raw"/>
+  </node>
+
+  <node pkg="rqt_image_view" type="rqt_image_view" name="viewer_reconstructed" output="screen">
+    <param name="image" value="/aruco_screen/reconstructed"/>
+    <param name="transport" value="raw"/>
+  </node>
+</launch>
+
